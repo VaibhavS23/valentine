@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Heart For You ❤️</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #ffe6e6;
+            overflow: hidden;
+            display: none; /* Initially hidden until name is entered */
+        }
+        h1 {
+            color: #ff4d4d;
+        }
+        .proposal-box {
+            background: white;
+            border: 4px solid #ff4d4d;
+            border-radius: 15px;
+            padding: 20px;
+            display: inline-block;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .heart {
+            font-size: 100px;
+            cursor: pointer;
+            transition: transform 0.5s, color 0.5s;
+        }
+        .heart.beating {
+            animation: heartbeat 0.8s infinite alternate;
+        }
+        @keyframes heartbeat {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        .love-message {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d63384;
+            animation: fadeIn 1.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .yes-no-buttons {
+            margin-top: 20px;
+        }
+        .yes-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+        }
+        .no-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #dc3545;
+            color: white;
+            position: absolute;
+        }
+        .hidden-heart {
+            font-size: 40px;
+            color: red;
+            animation: heartbeat 1s infinite alternate;
+        }
+        /* Love Letter Box */
+        .love-letter-box {
+            display: none;
+            background: white;
+            border: 4px solid #ff4d4d;
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            margin: auto;
+            margin-top: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 2s;
+        }
+        .love-letter {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Display name dynamically -->
+    <h1>Hey <span id="herName">Miss Beautiful 😍</span>,</h1>
+
+    <div class="proposal-box">
+        <h2>🌹 You complete my heart. Will you be my Valentine? 💖</h2>
+
+        <!-- Big Heart -->
+        <div>
+            <p class="heart" id="heart" onclick="fillHeart()">🤍</p>
+        </div>
+
+        <!-- Fill Heart Button -->
+        <button class="button" id="fillHeartBtn" onclick="fillHeart()">Click to Fill My Heart ❤️</button>
+
+        <!-- Proposal Message (Hidden Initially) -->
+        <div class="hidden" id="proposal">
+            <p class="love-message">"I may not be a photographer, but I can picture us together forever." ✨</p>
+            <div class="yes-no-buttons">
+                <button class="yes-btn" onclick="sayYes()">Yes 💕</button>
+                <button class="no-btn" id="noBtn" onmouseover="moveNo()">No 💔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Message (Hidden) -->
+    <div class="hidden" id="finalMessage">
+        <h2>🌹 Yay! You said YES! 🥰🫂🌹</h2>
+        <p class="hidden-heart">❤️❤️❤️</p>
+
+        <!-- Love Letter Box -->
+        <div class="love-letter-box" id="loveLetterBox">
+            <p class="love-letter">💌</p>
+            <p>"You are my today and all of my tomorrows 🤗." 💖</p>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="your_eye_x_teri_nazro.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        let heartClickedAfterYes = false;
+
+        // Force Name Input Without Cancel
+        function askForName() {
+            let name = "";
+            while (!name) { 
+                name = prompt("Hey Miss Beautiful 😍, what’s your lovely name?");
+            }
+            document.getElementById("herName").innerText = name;
+            document.body.style.display = "block"; // Show the interface
+        }
+
+        // Call name input on page load
+        window.onload = askForName;
+
+        function fillHeart() {
+            if (heartClickedAfterYes) return; // Prevent extra clicks after Yes
+
+            let heart = document.getElementById("heart");
+            let music = document.getElementById("bgMusic");
+
+            heart.innerHTML = "❤️"; // Change heart to red
+            heart.classList.add("beating"); // Make it beat
+            document.getElementById("fillHeartBtn").style.display = "none"; // Hide button
+            document.getElementById("proposal").style.display = "block"; // Show proposal
+
+            music.play(); // Play music
+        }
+
+        function sayYes() {
+            document.getElementById("proposal").style.display = "none"; // Hide Yes/No section
+            document.getElementById("finalMessage").style.display = "block";
+
+            heartClickedAfterYes = true; // Prevent further heart clicks
+
+            setTimeout(() => {
+                document.getElementById("loveLetterBox").style.display = "block"; // Show love letter
+            }, 2500);
+        }
+
+        function moveNo() {
+            let noBtn = document.getElementById("noBtn");
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 100);
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        }
+    </script>
+
+</body>
+</html>
